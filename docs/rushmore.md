@@ -1,18 +1,18 @@
-# Rushmore/Standard Bidsgui2 SOP
-This document contains specific information related to bidsgui2 as installed on rushmore under user firmmproc. All information is current as of 2020-03-18 (AG)
+# Rushmore/Standard bids-tryworks SOP
+This document contains specific information related to bids-tryworks as installed on rushmore under user firmmproc. All information is current as of 2020-03-18 (AG)
 The following details are documented below:
-- Starting Bidsgui2 on rushmore
-- Indexing the Dicom Data Base for Bidsgui2 on rushmore
-- Launching and Navigating to Bidsgui2 on rushmore
+- Starting bids-tryworks on rushmore
+- Indexing the Dicom Data Base for bids-tryworks on rushmore
+- Launching and Navigating to bids-tryworks on rushmore
 
 ## Starting the App
 ### First Setup
-0) Collect source code: `git clone https://gitlab.com/Fair_lab/bidsgui2`
+0) Collect source code: `git clone https://gitlab.com/Fair_lab/bids-tryworks`
 1) cd into cloned dir
 2) copy sample.env file to .env `cp sample.env .env`
 3) fill out the other side of the variable assignments in your `.env` file. Docker compose will look in this file for values corresponding to `${VALUE}` in your `.env` file. eg:
     ```bash
-    # code folder var, aka where the top level of bidsgui2 is.
+    # code folder var, aka where the top level of bids-tryworks is.
     CODE_FOLDER=
     # Folder containing dicoms to index/convert
     BASE_DICOM_DIR=
@@ -34,15 +34,15 @@ The following details are documented below:
 5) run `docker-compose up`
 6) navigate to `localhost:8770/dicoms` in your webrowser to begin.
 ### Post Setup Startup
-1) navigate to the directory the cloned bidsgui2 repo is at and execute the following command:
+1) navigate to the directory the cloned bids-tryworks repo is at and execute the following command:
     ```docker-compose up```
 ### Stoping the app
-1) navigate to the directory the cloned bidsgui2 repo is at and execute the following command:
+1) navigate to the directory the cloned bids-tryworks repo is at and execute the following command:
     ```docker-compose down```
 
 ## Indexing the Database
 ### Automatic Indexing
-On first startup bidsgui2 will determine whether or not it's indexed the folder specified in the `.env` file prepared earlier at `BASE_DICOM_DIR=`. If it hasn't it will index all dicoms located in that folder. Otherwise, Bidsgui2 will index a new folder of flat dicoms (other folder structures have not been extensively tested) once it is created or copied into the `BASE_DICOM_DIR` folder. However, it only detects when new folders are created at the base level of that folder, if you deliver dicoms to an already existing folder in `BASE_DICOM_DIR` it will not pick up on that (03/18/20).
+On first startup bids-tryworks will determine whether or not it's indexed the folder specified in the `.env` file prepared earlier at `BASE_DICOM_DIR=`. If it hasn't it will index all dicoms located in that folder. Otherwise, bids-tryworks will index a new folder of flat dicoms (other folder structures have not been extensively tested) once it is created or copied into the `BASE_DICOM_DIR` folder. However, it only detects when new folders are created at the base level of that folder, if you deliver dicoms to an already existing folder in `BASE_DICOM_DIR` it will not pick up on that (03/18/20).
 
 ### Routine Indexing
 Bidsgui2 will index the `BASE_DICOM_DIR` once per day to catch any files that may have arrived when the application was stopped and not monitoring the folder.

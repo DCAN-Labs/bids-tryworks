@@ -1,8 +1,8 @@
 # AIRC Bidsgui SOP
 This document contains specific information related to:
-- Starting Bidsgui2 on airclogin-a1
-- Indexing the Dicom Data Base for Bidsgui2 on airlogin-a1
-- Launching and Navigating to Bidsgui2 on localhost@airclogin-a1
+- Starting bids-tryworks on airclogin-a1
+- Indexing the Dicom Data Base for bids-tryworks on airlogin-a1
+- Launching and Navigating to bids-tryworks on localhost@airclogin-a1
 
 ### Recommended Software and Access
 - X2Go Client, when accessing any server remotely X2Go is recommended you'll have faster response to graphical elements such
@@ -30,35 +30,35 @@ organizing MRI scans, that is to say that the AIRC divides each scan into it's o
 
 ### Keeping Records and scans up to date
 There is no automatic way to index the AIRC at the time of this writing. That is to say that any scans made after the command `python manage.py index -d /dicom` will
-not appear in the bidsgui2 search because they don't exist in the database. However,
+not appear in the bids-tryworks search because they don't exist in the database. However,
 there is no need to despair. 
 
 If one writes a bash script that does the following things:
-1) Activate the bidsgui2 virtual environment at: `/group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/venv`
-2) runs the index command: `python /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/manage.py index -d <target directory to index>`
+1) Activate the bids-tryworks virtual environment at: `/group_shares/fnl/bulk/code/internal/GUIs/bids-tryworks_dev/bids-tryworks/venv`
+2) runs the index command: `python /group_shares/fnl/bulk/code/internal/GUIs/bids-tryworks_dev/bids-tryworks/manage.py index -d <target directory to index>`
 3) re-runs that command on some interval (every other day?) but only points it to 
 the current month of scans, eg:
-`python /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/manage.py index -d /dicoms/2020/<current month>`
+`python /group_shares/fnl/bulk/code/internal/GUIs/bids-tryworks_dev/bids-tryworks/manage.py index -d /dicoms/2020/<current month>`
 
-Then bidsgui2 should stay indexed with a minimum of fuss.
+Then bids-tryworks should stay indexed with a minimum of fuss.
 
 ### Indexing right away
 If a user wishes to index a directory right away the steps would be the same as the 
 above, minus the loop. eg:
 ```bash
-source /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/venv/bin/activate  
-python /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/manage.py index -d <target directory to index>
+source /group_shares/fnl/bulk/code/internal/GUIs/bids-tryworks_dev/bids-tryworks/venv/bin/activate  
+python /group_shares/fnl/bulk/code/internal/GUIs/bids-tryworks_dev/bids-tryworks/manage.py index -d <target directory to index>
 ```
 
 ### Launching the Server/Starting the app
-Typically it's best practice to simply leave bidsgui2 running in the background as it's not terribly resource intensive, however if one needs to launch it can be done with the following commands:
+Typically it's best practice to simply leave bids-tryworks running in the background as it's not terribly resource intensive, however if one needs to launch it can be done with the following commands:
 
 ```bash
-galassi@airclogin-a1:/group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/launch.sh 
+galassi@airclogin-a1:/group_shares/fnl/bulk/code/internal/GUIs/bids-tryworks_dev/bids-tryworks/launch.sh 
 ```
 
 ## Locating/Navigating to the App
-Presently bidsgui2 is located at `http://localhost/8080/dicoms` on airclogin-a1. If it's unreachable at this webaddress then the webserver is either down or it's located at a different address. To determine which of those two states is the case:
+Presently bids-tryworks is located at `http://localhost/8080/dicoms` on airclogin-a1. If it's unreachable at this webaddress then the webserver is either down or it's located at a different address. To determine which of those two states is the case:
 
 It's recommended to try launching it via the above step.
 
@@ -66,7 +66,7 @@ Or to locate which port it's been assigned by entering `ps aux | grep manage.py`
 `manage.py runserver`, in our case below we can see that the server is up and running at port `8080`:
 ```bash
 (base) galassi@airclogin-a1:~$ ps aux | grep manage.py
-galassi  17226 10.5  0.0 198952 57944 ?        Sl   Feb13 117:19 /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/venv/bin/python /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/manage.py runserver 8080
+galassi  17226 10.5  0.0 198952 57944 ?        Sl   Feb13 117:19 /group_shares/fnl/bulk/code/internal/GUIs/bids-tryworks_dev/bids-tryworks/venv/bin/python /group_shares/fnl/bulk/code/internal/GUIs/bids-tryworks_dev/bids-tryworks/manage.py runserver 8080
 ```
 Replace the 4 numbers in the web address `http://localhost/8080/dicoms` with those found via `ps aux | grep manage.py`
 like so `https://localhost/<4 new numbers>/dicoms` and navigate to the app/site. 
