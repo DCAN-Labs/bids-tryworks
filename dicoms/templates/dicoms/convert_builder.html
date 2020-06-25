@@ -1,0 +1,374 @@
+{% extends 'dicoms/base.html' %}
+
+{% block content %}
+{% load static %}
+{% load bootstrap4 %}
+
+<script>
+    let URL = "{% url 'create_dcm2bids_config' %}";
+    let bidSpec = JSON.parse('{{ test | escapejs }}');
+    let required = bidSpec.required;
+    //console.log(bidSpec)
+    //console.log(required)
+
+    $(window).bind('beforeunload', function () {
+        $("spinning-display").hide();
+    })
+
+    function get_value(sel) {
+        let bidSpec = JSON.parse('{{ test | escapejs }}');
+        bidSpec["choice"] = sel.value;
+        let series = sel.className;
+        bidSpec['series'] = series;
+        let requiredLabel = check_required(bidSpec);
+        let optionalLabels = check_optional(bidSpec);
+        $("#" + series + " .required_label .required_label").val(requiredLabel);
+        hide_if_ignore(bidSpec)
+
+    }
+
+    function toggleShownBidsInfo() {
+        $("#cornerMessage").toggle();
+        $("cornerButton").toggle();
+    }
+</script>
+<script src="{% static "jss/config_builder.js" %}"></script>
+<script src="{% static "jss/uploading_config.js" %}"></script>
+<script src="{% static "jss/progress_bar.js" %}"></script>
+
+
+<head>
+    <style>
+        form {
+            display: inline-grid;
+        }
+
+        labeltooltip {
+            padding: 2px;
+            display: none;
+        }
+
+        label:hover+labeltooltip {
+            display: block;
+            color: #1A01CC;
+        }
+
+        label:hover+input+labeltooltip {
+            display: inline;
+        }
+
+        .topcorner {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-style: solid;
+            border-radius: 10px;
+            border-width: 2px;
+            background-color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .topcorner#cornerMessage {
+            display: none;
+        }
+
+        .topcorner#cornerButton {
+            display: block;
+        }
+
+        @keyframes spinner-line-fade-more {
+
+            0%,
+            100% {
+                opacity: 0;
+                /* minimum opacity */
+            }
+
+            1% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes spinner-line-fade-quick {
+
+            0%,
+            39%,
+            100% {
+                opacity: 0.25;
+                /* minimum opacity */
+            }
+
+            40% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes spinner-line-fade-default {
+
+            0%,
+            100% {
+                opacity: 0.22;
+                /* minimum opacity */
+            }
+
+            1% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes spinner-line-shrink {
+
+            0%,
+            25%,
+            100% {
+                /* minimum scale and opacity */
+                transform: scale(0.5);
+                opacity: 0.25;
+            }
+
+            26% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<button id="cornerButton" class="topcorner" onclick="toggleShownBidsInfo();">
+    <p>Click here for more information about BIDS</p>
+</button>
+<div id="cornerMessage" class="topcorner" onclick="toggleShownBidsInfo();">
+    <div>
+        Read more about <a href="https://bids.neuroimaging.io/specification.html">
+            BIDS
+        </a>
+    </div>
+    <div>
+        For more information about the
+        <a href="https://bids-specification.readthedocs.io/en/stable/">
+            BIDS Specification
+        </a>
+    </div>
+    <div id="dcm2bidspath">
+        Dcm2Bids configuration Json's built or uploaded to this<br>
+        application can be found at: {{ path_to_dcm2bids_jsons }}
+    </div>
+    <div id="dcm2bids_config_tutorial">
+        <a href="http://cbedetti.github.io/Dcm2Bids/tutorial/#building-the-config-file">
+            How to build a configuration Json
+        </a>
+    </div>
+    <div id="modalitytable">
+        <a href="/static/entity_table_bids_v1.2.0.pdf">
+            PDF of Bids Entities
+        </a>
+    </div>
+    <div>
+        <a href="https://gitlab.com/Fair_lab/bidsgui2/-/blob/development/docs/sop.md">
+            How-To
+        </a>
+    </div>
+
+</div>
+
+
+<div class="upload-conversion-json">
+    {% csrf_token %}
+    <label for="input-file">Upload your own dcm2bids configuration JSON:</label>
+    <labeltooltip>
+        A custom config file written in json. For more information visit cbdetti's<br>
+        github repository for dcm2bids
+    </labeltooltip>
+    <input type="file" id="input-file"></input>
+</div>
+
+
+{% csrf_token %}
+<div id="uploader_div" class="upload-conversion-json">
+    <textarea id="content-target" rows="10" cols="90"></textarea>
+    <br>
+    {% csrf_token %}
+    {% csrf_token %}
+    <input type='button' id='input-submit' value='Use Uploaded JSON for Conversion' onclick='postTextToDB();'>
+    <input id="upload_config_pk" name="upload_config_pk" hidden="true" value="null">
+    </p>
+
+</div>
+
+<script>
+            on_load();
+</script>
+
+<p hidden="true">Query status: <span id="status"></span></p>
+<br /><br />
+<form id="build_conversion_form" action="" method="post">
+    {% csrf_token %}
+    <label class="make_new_checkbox">
+        <input id="make_new_checkbox" class="make_new_checkbox" type="checkbox" value="create">
+        <label for="make_new_checkbox">Create New Conversion Form</label>
+        <labeltooltip>
+            Select this option to create a new conversion form from the
+            sessions selected on the previous page.
+        </labeltooltip>
+    </label>
+
+
+    <div class="conf_file_builder">
+        <div id="reuse_conversion_file" class="reuse_conversion_file">
+            <!-- This block provides the user with a method to choose a previously saved dcm2bids
+                conversion file -->
+            <input id="select_conversion_file_checkbox" class="select_conversion_file" type="checkbox">
+            <label for="select_conversion_file_checkbox" class="select_conversion_file">
+                Choose a previously used conversion file:
+            </label>
+            <labeltooltip>Use the dropdown to select a previously created/uploaded config file</labeltooltip>
+            <select class="select_conversion_file" name="old_config_pk">
+                {% for pk, attributes in dcm2bids_jsons.items %}
+                <option value="{{ pk }}">{{ attributes.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="build_conversion_file" hidden="true" class="reuse_conversion_file">
+            <table style="width: 100%">
+                <tr>
+                    <th>Series Number</th>
+                    <th>Series Folder</th>
+                    <th>Scan Type</th>
+                    <th>Required, Optional and Custom Labels</th>
+                    <th></th>
+                </tr>
+                {% for name, pk, series_number in unique_series_description %}
+                <tr class="scan" id="{{ pk }}">
+                    <td class="series-number">{{ series_number }}</td>
+                    <td width="40%" class="series">{{ name }}
+                    </td>
+
+                    <td width="20%" class="modality">
+                        <select class="{{ pk }}" onchange="get_value(this)">
+                            {% for modality in scan_choices %}
+                            <option value="{{ modality }}">{{ modality }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td class="required_label">
+                        <input class="required_label" type="text" hidden="true"
+                            name="required_label{{ each.SeriesDescription }}" value="" readonly>
+                    </td>
+                    <td class="custom_label">
+                        <input class="custom_label" type="text" hidden="true"
+                            name="custom_label{{ each.SeriesDescription }}" value="">
+                    </td>
+                    <td class="collected_fields">
+                        <input type="hidden" name="pk" value="{{ pk }}">
+                        <!--<input type="hidden" name="series" value="{{ name }}"-->
+                        <!-- the below seems to return series with a bunch of spaces and \r\n characters -->
+                        <input type="hidden" class="holder series" value="{{ name.strip }}" name="series">
+                        <input type="hidden" class="holder modality" name="modality">
+
+                        <!--input type="hidden" class="holder required_label" name="test_required_label">
+                                <input type="hidden" class="holder custom_label" name="test_custom_label"-->
+                    </td>
+
+                </tr>
+
+
+
+                {% endfor %}
+
+            </table>
+            {% csrf_token %}
+            <label>
+                <input type="checkbox" id="hide_non_ignore" value="hide">
+                <label for="hide_non_ignore">Hide All IGNORE Scan Types</label>
+                <labeltooltip>
+                    Select this option to hide all rows with the scan type 'IGNORE'.
+                </labeltooltip>
+            </label>
+            <br /><br />
+        </div>
+    </div>
+    If you selected your home folder as a remote path and 'study_folder' as the folder name<br>
+    Your converted files would be sent here: /home/study_folder
+    <br><br>
+    <div>
+        <label for="output_folder">Output Folder:</label>
+        <labeltooltip>
+            This field specifies the directory within the Remote Path<br>
+            in which to place your files. Defaults to datetime value, change to suit<br>
+        </labeltooltip>
+        <input id="output_folder" type="text" name="output_folder" value="{{ date }}">
+        <br>
+        <label class="build_conversion_file config_name" hidden="true">
+            Name for new config:
+        </label>
+        <labeltooltip>
+            This will be the saved name of your config file for future conversions
+        </labeltooltip>
+        <input class="build_conversion_file config_name" type="text" hidden="true" name="dcm2bids_conf_filename"
+            value="">
+    </div>
+    <div class="transfer-dicoms">
+        <label>Remote Server:</label>
+        <labeltooltip>
+            The name of the server you're sending files to.<br>
+            You can find this name by typing hostname into a terminal
+        </labeltooltip>
+        <input type="text" name="remote-server" value=""><br>
+        <label>Remote Path:</label>
+        <labeltooltip>
+            The full path on the remote server you wish place the<br>
+            Output Folder at.
+        </labeltooltip>
+        <input type="text" name="remote-path" value=""><br>
+        <label>User Name:</label>
+        <labeltooltip>
+            Your username on the remote server
+        </labeltooltip>
+        <input type="text" name="remote-user" value=""><br>
+        <label>Password:</label>
+        <labeltooltip>
+            The password corresponding to the the username entered
+            above. Note: passwords are not stored in this application<br>
+            they're only used during the transfer of converted files from {{ dicom_source }}
+            to the destination specfied above.
+        </labeltooltip>
+        <input type="password" name="remote-password" value=""><br>
+    </div>
+    <input id="make_new_boolean" name="make_new_boolean" hidden="true" value="False">
+    <input id="use_uploaded_boolean" name="use_uploaded_boolean" hidden="true" value="False" class="boolean">
+    <input name="generate_convert_file" id="generate_form_button" value="Convert" type="submit"
+        action="{% url 'create_dcm2bids_config' %}" method="post" size="55"><br>
+    <div name="create_conversion_file" hidden="true">{% url 'create_dcm2bids_config' %}</div>
+</form>
+
+
+<div id="spinning-display"></div>
+<script type="module" src="{% static "jss/spin_module.js" %}"></script>
+
+<script>
+        $(document).ready(function () {
+            $('.dropdown-submenu a.test').on("click", function (e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+
+
+        /* Checkbox functionality to hide rows which say "IGNORE" in 
+           new conversion form creation table */
+        $("#hide_non_ignore").change(function () {
+            if ($("#hide_non_ignore").is(":checked")) {
+                ($("tr").has("td").has("select")
+                    .has("option:selected[value='IGNORE']").hide());
+            } else {
+                ($("tr").has("td").has("select")
+                    .has("option:selected[value='IGNORE']").show());
+            }
+
+        })
+</script>
+
+
+{% endblock %}

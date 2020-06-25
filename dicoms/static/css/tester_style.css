@@ -1,0 +1,18 @@
+
+#search_selection {
+    overflow-y: auto;
+    height: 440px;
+    width: 999px;
+    float: left;
+    position: relative;
+}
+
+div {
+    color: red;
+}
+
+option {
+    display: inline-grid;
+    grid-template-columns: 20% 50% 30%;
+    width: 100%;
+}

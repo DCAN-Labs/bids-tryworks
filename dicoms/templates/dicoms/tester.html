@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<script type='text/javascript'>
+    var testJson = {};
+
+    var sessionsData = {"sessions": [
+        {
+            "model": "dicoms.session",
+            "pk": 21,
+            "fields": {
+                "Subject": 1,
+                "SessionName": null,
+                "Path": "/stuff/dicoms/garbage/stuff",
+                "StudyDescription": "AAAAAAAAAAAAA",
+                "DateIndexed": "2020-04-02T21:53:33.217Z",
+                "SessionDate": "2012-07-11T00:00:00Z",
+                "owner": null,
+                "group": null
+            }
+        },
+        {
+            "model": "dicoms.session",
+            "pk": 420,
+            "fields": {
+                "Subject": 1,
+                "SessionName": null,
+                "Path": "/stuff/dicoms/garbage/things",
+                "StudyDescription": "AAAAAAAAAAAAAA",
+                "DateIndexed": "2020-04-02T21:53:35.758Z",
+                "SessionDate": "2012-07-11T00:00:00Z",
+                "owner": null,
+                "group": null
+            }
+        },
+        {
+            "model": "dicoms.session",
+            "pk": 666,
+            "fields": {
+                "Subject": 42,
+                "SessionName": null,
+                "Path": "/stuff/dicoms/garbage/junk",
+                "StudyDescription": "AAAAAAAAAAAAAAAAAA",
+                "DateIndexed": "2020-05-08T23:02:21.146Z",
+                "SessionDate": "2015-05-13T00:00:00Z",
+                "owner": null,
+                "group": null
+            }
+        }
+    ]};
+    </script>
+
+    <!--Vue creates its own copy of this div 'app' in memory and replaces
+    it once it's preformed it's action-->
+    <div id='app'>
+        <!-- using this container bootstrap class to prevent form from bleeding across page.-->
+         <!-- <div class="container"> -->
+        <center>
+            <div id="search_selection" vm>
+                <option v-for="instance in sessions">
+                    <div>
+                        [[ instance.fields.Subject ]]
+                    </div>
+                    <div>
+                        [[ instance.fields.SessionDate ]]
+                    </div>
+                    <div>
+                        <input type="text" class="renaming">
+                    </div>
+                </option>
+            </div>
+        </center>
+    
+         <!-- </div> -->
+    </div>
+    
+
+    <script>
+
+
+    function renameSelectedSubjects() {
+        $("#search_selection").each(function() {
+            addRenameInputForSubjectSession(this);
+        })
+    }
+
+    function addRenameInputForSubjectSession(subjectSession) {
+
+        // Get subject session's ID and text content
+        var subSesID = "rename-" +  subjectSession.id; // subSesID + "-" + sub_ses_txt
+        var subSesText = $.trim(subjectSession.innerHTML);
+        if (!$("#" + subSesID).length) {
+
+        // Label for row to rename subject session
+        var subSesLabel = document.createElement("p");
+        subSesLabel.id = subSesID;
+        subSesLabel.innerHTML = ("Rename subject session "
+                                    + subjectSession.id + " ('"
+                                    + subSesText + "') to: ");
+
+        // Textarea to enter new name
+        var newSubSesInput = document.createElement("textarea");
+        newSubSesInput.id = subSesID + "-textarea"
+        newSubSesInput.value = subSesText;
+        newSubSesInput.columns = "50";
+        newSubSesInput.rows = "1";
+
+        // Cancel button
+        var cancelButton = document.createElement("button");
+        cancelButton.innerHTML = "Cancel"
+        cancelButton.addEventListener("click", function() {
+            removeThis(subSesID);
+        });
+
+        // Accept button
+        var acceptButton = document.createElement("button");
+        acceptButton.innerHTML = "Accept";
+        acceptButton.addEventListener("click", function() {
+            changeName(subjectSession.id);
+            removeThis(subSesID);
+        })
+
+        // Add new elements to DOM
+        var renameDiv = document.getElementById("rename-div");
+        console.log(renameDiv);
+        subSesLabel.appendChild(newSubSesInput);
+        subSesLabel.appendChild(cancelButton);
+        subSesLabel.appendChild(acceptButton);
+        renameDiv.appendChild(subSesLabel);
+        }
+
+        function removeThis(elID) {
+        $("#" + elID).remove();
+        }
+
+        function changeName(subSesID) {
+        var newName = $.trim($("#rename-" + subSesID + "-textarea").val());
+        $("#" + subSesID).html(newName);
+        }
+    }
+</script>
+<link 
+    rel="stylesheet" 
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+    crossorigin="anonymous"
+>
+<link rel="stylesheet" href="../../static/css/tester_style.css" type="text/css">
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>    
+    var vm = new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data: {
+            "sessions": sessionsData.sessions,
+            "subjectID": [],
+            "sessionDate": [],
+            "aka": []
+        },
+        // code executes as soon as vue instance is created
+        created: function () {
+            // this.fetchApod();
+            sessions = sessionsData;
+            this.populateList();
+        },
+        // asynchronous method to get data from url
+        methods: {
+            fetchApod: function () {
+                var url = 'https://api.nasa.gov/planetary/apod?api_key='
+                axios.get(url)
+                    .then(function (res){
+                });
+            },
+            populateList: function() {
+                console.log(sessions)
+                for (instance in sessions) {
+                    console.log(instance)
+                    this.subjectID.append(instance.fields.Subject);
+                    this.sessionDate.append(instance.fields.SessionDate);
+                    if (instance.fields.aka) {
+                        this.aka.append(instance.fields.aka);
+                    } else {
+                        this.aka.append("");
+                    }
+                }
+            }
+        },
+    })  
+</script>

@@ -1,0 +1,60 @@
+{
+    "descriptions": [
+        {
+            "dataType": "anat",
+            "modalityLabel": "T1w",
+            "criteria": {
+                "SeriesDescription": "T1w_MPR",
+                "ImageType": "[ORIGINAL\\PRIMARY\\M\\ND\\NORM]"
+            }
+        },
+        {
+            "dataType": "anat",
+            "modalityLabel": "T2w",
+            "criteria": {
+                "SeriesDescription": "T2w_SPC",
+                "ImageType": "[ORIGINAL\\PRIMARY\\M\\ND\\NORM]"
+            }
+        },
+        {
+            "dataType": "func",
+            "modalityLabel": "bold",
+            "customLabels": "task-rest",
+            "criteria": {
+                "SeriesDescription": "rfMRI_REST_AP"
+            }
+        },
+        {
+            "dataType": "func",
+            "modalityLabel": "bold",
+            "customLabels": "task-rest",
+            "criteria": {
+                "SeriesDescription": "rfMRI_REST_PA"
+            }
+        },
+        {
+            "dataType": "func",
+            "modalityLabel": "sbref",
+            "customLabels": "task-rest",
+            "criteria": {
+                "SeriesDescription": "rfMRI_REST_AP_SBRef"
+            }
+        },
+        {
+            "dataType": "fmap",
+            "modalityLabel": "epi",
+            "customLabels": "dir-AP",
+            "criteria": {
+                "SeriesDescription": "SpinEchoFieldMap_AP"
+            }
+        },
+        {
+            "dataType": "fmap",
+            "modalityLabel": "epi",
+            "customLabels": "dir-PA",
+            "criteria": {
+                "SeriesDescription": "SpinEchoFieldMap_PA"
+            }
+        }
+    ]
+}

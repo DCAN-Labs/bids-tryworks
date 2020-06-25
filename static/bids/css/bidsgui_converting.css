@@ -1,0 +1,70 @@
+#studies {
+    float:left;
+        display: table-cell;
+}
+
+#session_choice {
+    float:left;
+    display: table-cell;
+    max-height:600px;
+    margin-right:40px;
+    padding:30px;
+}
+
+#session_choice a.edit_subjectid {
+/*    display:none;*/
+    float:right;
+}
+/*
+#session_choice td:hover a.edit_subjectid {
+    display:block;
+}
+*/
+
+
+#session_tree {
+    float:left;
+    display: table-cell;
+    max-height:600px;
+    display:none;
+    padding:30px;
+}
+
+#session_detail_div {
+    display:table-cell;
+    padding:30px;
+}
+#mapping_tab {
+    max-width:800px;
+}
+
+#convert_action_panel {
+    margin-left:250px;
+    height:60px;
+    width:970px;
+}
+
+#convert_action_panel td{
+    padding-left:10px;
+}
+
+#btn_create_bids {
+    float:left;
+    margin:10px;
+}
+
+select option.dataTypeHeading:disabled {
+    color: #000;
+    font-weight: bold;
+    border-bottom:solid black 1px;
+}
+
+#search textarea{    
+    width:600px;
+}
+
+#choose_selection_file_panel {
+    background-color:silver;
+    padding:10px;
+    display: table-cell;
+}

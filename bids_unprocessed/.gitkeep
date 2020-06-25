@@ -1,0 +1,3 @@
+This file exists solely so that we can keep an empty directory in our project/git history.
+Every other file in this folder will be ignored by placing "unprocessed/*" in our git ignore and this
+file will be included using "!unprocessed/.gitkeep".

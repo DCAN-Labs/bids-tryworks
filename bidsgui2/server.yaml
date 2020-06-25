@@ -1,0 +1,9 @@
+BASE_DICOM_DIR:
+- /mnt/rose/shared/data/bidsgui2_data/raw_dicoms/incoming_dicoms
+- /mnt/max/shared/code/internal/GUIs/dev_mastergui/mastergui
+- /mnt/max/shared/code/internal/GUIs
+CONVERTED_FOLDER: /mnt/rose/shared/data/bidsgui2/dcm2bids
+DATA_UPLOAD_MAX_NUMBER_FIELDS: 10000
+LOG_PATH: /mnt/rose/shared/data/bidsgui2/logs
+my_first_var: is a string
+my_second_var: 2

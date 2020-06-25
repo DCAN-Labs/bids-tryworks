@@ -1,0 +1,22 @@
+{
+    "descriptions": [
+        {
+            "dataType": "anat",
+            "modalityLabel": "T1w",
+            "criteria": {
+                "SeriesDescription": "T1w_MPR_vNav",
+                "ImageType": "[ORIGINAL\\PRIMARY\\M\\ND\\NORM]"
+            }
+        },
+        {
+            "dataType": "func",
+            "modalityLabel": "bold",
+            "customLabels": "task-rest",
+            "criteria": {
+                "SeriesDescription": "resting10-TR2500"
+            }
+        }
+
+     ]
+
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+<body data="{{ serialized }}">
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+<style>
+    .bottomcorner {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+    }
+</style>
+<div class="bottomcorner">
+    <div>
+        This page allows the user to search dicoms located at the
+        path below:<br>
+        {{ dicom_source }}
+    </div>
+    <div>
+        <a href="https://gitlab.com/Fair_lab/bidsgui2/-/blob/development/docs/sop.md">
+            How-To
+        </a>
+    </div>
+</div>
+{{ form.media }}
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table border="1">
+        {{ form }}
+    </table>
+    <button name="search_btn" value="search" type="submit">Search</button>
+</form>
+</body>
+</html>

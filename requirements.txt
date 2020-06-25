@@ -1,0 +1,34 @@
+sharebear
+dateutils==0.6.6
+dcm2bids
+Django==2.2.1
+django-background-tasks==1.2.0
+django-bootstrap-datepicker-plus==3.0.5
+django-bootstrap4==0.0.8
+django-compat==1.0.15
+django-cors-middleware
+django-cors-headers
+django-rest-framework-braces==0.3.4
+django-sslserver==0.20
+djangorestframework==3.10.3
+future==0.17.1
+pathtools==0.1.2
+pexpect==4.7.0
+pycparser==2.19
+pydicom==1.3.0
+PyNaCl==1.3.0
+python-dateutil==2.8.0
+pytz==2019.1
+PyYAML
+scpclient==0.7
+six==1.12.0
+sqlparse==0.3.0
+watchdog==0.9.0
+pandas
+python-dotenv
+# Note this pysopg2-binary was required for installation on ubuntu 18.04, it's functionally equivalent to psycopg2,
+# but it happens to work on my system. If you encounter an error with installation refer to this document for mor info:
+# https://www.psycopg.org/articles/2018/02/08/psycopg-274-released/
+# I'm assuming everything is still working in in docker but I could be wrong.
+psycopg2-binary
+psycopg2

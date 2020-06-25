@@ -1,0 +1,145 @@
+{% extends 'dicoms/base.html' %}
+{% load static %}
+{% block content %}
+
+<script>
+  var serialized = JSON.parse('{{ serialized|safe }}');
+  var session_series = JSON.parse('{{ session_series|safe }}');
+  // var sessions = '{{ sessions|safe }}' // JSON.parse('{{ sessions|safe }}');   // This caused errors
+</script>
+
+<div id="study_detail">
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="pathbrowseModal" tabindex="-1" role="dialog" aria-labelledby="pathbrowseModalLabel"
+    aria-hidden="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pathbrowseModalLabel">Browse</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="popup_studies" class="list-group"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="search_results">
+
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane" id="mapping_tab" role="tabpanel" aria-labelledby="mapping_tab-tab">
+      To convert to BIDS we need to know the modality type of each series. An attempt has been made to
+      discern
+      the modality based on past experience. Please provide any missing values and review the
+      automatically
+      matched entries.<br />
+
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-secondary active">
+          <input type="radio" name="options" id="option1" autocomplete="off" checked> Show Missing
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="options" id="option2" autocomplete="off"> Show All
+        </label>
+      </div>
+      <form id="form_series_descriptions">
+        <table id="series_descriptions" class="table">
+          <thead>
+            <th>Series Description</th>
+            <th>Scan Type</th>
+            <th>Custom Labels</th>
+            <th>Required Labels</th>
+          <tbody>
+
+          </tbody>
+        </table>
+      </form>
+    </div>
+
+    <div class="tab-pane active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+      <div id="session_choice">
+        <h3>Select the Subject/Dates to be converted</h3>
+        <form method="post" action="{% url 'search_selection' %}">
+          {% csrf_token %}
+          <h4>Subjects and Sessions below are displayed in the following format:</h4>
+          <em>SubjectID, Subject Renamed ID, Session Date</em><br />
+          <select id="search_selection" name="search_selection" multiple="multiple" size=10 data-select="false">
+            {% for session in sessions %}
+              <option id="{{ session.pk }}" value="{{ session.pk }}"
+               onmouseover="populateDetails('{{ session.pk }}');" >
+                <span class='SubjectID'>{{ session.Subject }}</span>
+                {% if session.Subject.AKA %}
+                  <span class='SubjectAKA'>{{ session.Subject.AKA }}</span>
+                {% else %}
+                  <span class='SubjectAKA'>{{ session.Subject }}</span>
+                {% endif %}
+                <span class='SessionDate'>{{ session.SessionDate|date:"Y M d" }}</span>
+              </option>
+            {% endfor %}
+
+          </select>
+          <input type="submit" value="Choose These Sessions" class="btn btn-primary">
+        </form>
+        <button id="check_all" type="button" class="btn btn-primary">Select All</button>
+        <button id="uncheck_all" type="button" class="btn btn-primary btn-warning">Unselect All</button>
+
+        <!-- Functionality to rename subjects -->
+        <button id="rename" type="button" class="btn btn-primary" onclick="renameSelectedSubjects();">Rename
+          Subject(s)</button>
+        <div id="rename-div"></div>
+        <script src={% static "jss/rename_subjects.js" %}></script>
+        <script src={% static "jss/dicoms.js" %}></script>
+        <br>
+        <br>
+
+        <p>To select individual subjects, hold down CNTRL and click to select subjects of interest.
+          <br>To select multiple consecutive rows of subjects, hold SHIFT and select the first and last of the rows of
+          interest. </p>
+
+      </div>
+      <div id="session_tree" class="list-group"></div>
+      <div id="session_detail_div">
+        <h2>Session Detail</h2>
+        <div>This is the primary session used to generate the conversion file for
+          dcm2bids
+        </div>
+        <div>Session Path: <span id="session_path_label" /></div>
+        <div>Session Date: <span id="session_date_label" /></div>
+        <div>Session Subject: <span id="session_subject_label" /></div>
+
+        <table id="series_table" class="table">
+          <thead class="thead-light">
+            <tr>
+              <th>Description</th>
+              <th>Time</th>
+              <th>Series</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+      <div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+{% endblock %}

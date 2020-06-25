@@ -1,0 +1,117 @@
+
+        <title>students api</title>
+        <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            label {
+                cursor: pointer;
+            }
+
+            textarea    {
+                width: 400px;
+                height: 200px;
+            }
+        </style>
+        <script>
+
+            const TARGETURL = "http://localhost:8000/studentsapi";
+            function getFromDB() {
+                console.log('GET successful')
+                $.ajax({
+                    url: TARGETURL,
+                    dataType: "json",
+                    success: function (data) {
+                                $('#first_name').text( data[0].first_name);
+                                $('#last_name').text( data[0].last_name);
+                                $('#age').text( data[0].age);
+                                $('#gender').text( data[0].gender);
+                                setStatusTo("GET successful.")
+                            }
+                        });
+                    }
+
+            function on_load() {
+                document.getElementById('input-file').addEventListener('change', getFile);
+            }
+
+            function postTextToDB() {
+                textToPost = document.getElementById('content-target').value;
+                if (textToPost === "") {
+                    setStatusTo("Please enter text or upload a file before clicking POST.")
+                } else {
+                    console.log("Text to post: " + textToPost);
+                    var jsonData = {"data": textToPost};
+                    $.ajax({
+                        type: "POST",
+                        url: TARGETURL,
+                        dataType: "json",
+                        contentType: "application/json",
+                        data: JSON.stringify(jsonData),
+                        success: function(response) {
+                            console.log(JSON.stringify(jsonData));
+                            console.log("POST successful. Response:" + response);
+                            setStatusTo("POST successful.")
+                            success_response = response;
+                        },
+                        error: function(xhr, desc, err) {
+                            console.log("Error: POST failed." + err)
+                            setStatusTo("Error: POST failed." + err)
+                        }
+                    })
+                    console.log(jsonData);
+                }
+            }
+
+
+            function setStatusTo(msg) {
+                document.getElementById("status").innerHTML = msg;
+            }
+        
+
+            function getFile(event) {
+                const input = event.target;
+                if ('files' in input && input.files.length > 0) {
+                    placeFileContent(
+                        document.getElementById('content-target'),
+                        input.files[0]
+                    );
+                }
+            }
+
+            function placeFileContent(target, file) {
+                readFileContent(file).then(content => {
+                    target.value = content;
+                }).catch(error => console.log(error));
+            }
+
+            function readFileContent(file) {
+                const reader = new FileReader();
+                return new Promise((resolve, reject) => {
+                    reader.onload = event => resolve(event.target.result);
+                    reader.onerror = error => reject(error);
+                    reader.readAsText(file);
+                })
+            }
+        </script>
+    <body onload="on_load();">
+    <div>
+        <p>Enter text, or upload a JSON file, to POST to database: 
+            <input type='button' id='input-submit' value='POST' onclick='postTextToDB();'></input>
+        </p>
+    </div>
+    <textarea id="content-target"></textarea>
+    <div>
+        <label for="input-file">Upload a file:</label>
+        <input type="file" id="input-file">
+    </div>
+    <p>Query status: <span id="status"></span></p>
+    <br /><br />
+    <button class='apireq' onclick='getFromDB();'>GET Random Student from DB</button>
+    <div id="jsonresp" style="margin-top: 20px">
+        <p><label> First name:</label> <span id="first_name"></span></p>
+        <p><label> Last name:</label> <span id="last_name"></span></p>
+        <p><label> age:</label> <span id="age"></p>
+        <p><label> gender:</label><span id="gender"></span></p>
+    </div>
+    </body>
+`
+

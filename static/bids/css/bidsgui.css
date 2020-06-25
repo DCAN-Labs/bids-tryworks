@@ -1,0 +1,36 @@
+#header {
+    background-color:#0e4d8f;
+    width:100%;
+    min-height:60px;
+    color:white;
+}
+
+#top_nav {
+    background-color:#0e4d8f;
+}
+#header a {
+    color:white;
+}
+#launchpanel {
+    width:100%;
+    margin:auto;
+    display:table;
+}
+
+#launchpanel div {
+    padding:2%;
+}
+
+a.nav-link {
+    font-weight:bold;
+    font-size:18px;
+}
+
+
+#check_all, #uncheck_all {
+    float:right;
+    margin-left:20px;
+}
+
+
+
