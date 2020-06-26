@@ -22,7 +22,7 @@ Bids Tryworks is built with python, dcm2niix, django, docker, and JavaScript.
 There are two methods for installation, the easier of the two requires docker and is the first detailed below:
 
 #### Docker
-1) obtain source code via:  `git clone https://gitlab.com/Fair_lab/bids_tryworks.git`
+1) obtain source code via:  `git clone git@github.com:DCAN-Labs/bids-tryworks.git`
 2) Copy `bids_tryworks/sample.env` to a new `.env` file. This is where you'll set up bids_tryworks to work on your specific system
 3) Your config (`.env`) file should appear like this: 
 ```
@@ -52,8 +52,7 @@ importance below:
 - `CONVERTED_FOLDER` an intermediary folder 
 
 #### Non-Docker
-- `git clone https://gitlab.com/Fair_lab/bids_tryworks.git`
-- `git checkout -b 1.1.1`
+- `git clone git@github.com:DCAN-Labs/bids-tryworks.git`
 - `git pull`
 - `venv --python=<your python 3 path>`
 - `source venv/bin/activate`
