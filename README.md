@@ -1,19 +1,19 @@
-# Bidsgui2: Better, Faster, Stronger
+# Bids Tryworks 
 ## Description:
-Bidsgui2 is a gui resource designed to convert a set of dicoms into a [BIDS](https://bids.neuroimaging.io/) 
+Bids Tryworks is a gui resource designed to convert a set of dicoms into a [BIDS](https://bids.neuroimaging.io/) 
 dataset. BIDS is an acronym for Brain Imaging Data Structure, if you wish to know more about BIDS I would recommend 
 reading up on the official website linked above. TL;DR BIDS formatted data consists of dicoms that have been converted 
 into nifti's (compressed or uncompressed) and then labeled, named, and organized into a standard pattern. Additional 
 information on the BIDS spec can be found [here](https://bids-specification.readthedocs.io/en/stable/).
 
 ## Technologies
-Bidsgui2 is built with python, dcm2niix, django, docker, and JavaScript.
+Bids Tryworks is built with python, dcm2niix, django, docker, and JavaScript.
 - Python
     - Conversion from dicoms to bids is accomplished via: [dcm2bids](https://github.com/cbedetti/Dcm2Bids). 
     - [github page](https://github.com/rordenlab/dcm2niix)
     - dcm2niix must be installed for dcm2bids to work. 
 - Django
-    - Handles the interface between the front and backend of Bidsgui2
+    - Handles the interface between the front and backend of Bids Tryworks
     - Indexes and stores information on dicom source folder
 - JavaScript
     - most of the front end functionality is written in JS and is pending a rewrite into Vue.
@@ -22,11 +22,11 @@ Bidsgui2 is built with python, dcm2niix, django, docker, and JavaScript.
 There are two methods for installation, the easier of the two requires docker and is the first detailed below:
 
 #### Docker
-1) obtain source code via:  `git clone https://gitlab.com/Fair_lab/bidsgui2.git`
-2) Copy `bidsgui2/sample.env` to a new `.env` file. This is where you'll set up bidsgui2 to work on your specific system
+1) obtain source code via:  `git clone https://gitlab.com/Fair_lab/bids_tryworks.git`
+2) Copy `bids_tryworks/sample.env` to a new `.env` file. This is where you'll set up bids_tryworks to work on your specific system
 3) Your config (`.env`) file should appear like this: 
 ```
-# code folder var, aka where the top level of bidsgui2 is.
+# code folder var, aka where the top level of bids_tryworks is.
 CODE_FOLDER=
 # Folder containing dicoms to index/convert
 BASE_DICOM_DIR=
@@ -52,7 +52,7 @@ importance below:
 - `CONVERTED_FOLDER` an intermediary folder 
 
 #### Non-Docker
-- `git clone https://gitlab.com/Fair_lab/bidsgui2.git`
+- `git clone https://gitlab.com/Fair_lab/bids_tryworks.git`
 - `git checkout -b 1.1.1`
 - `git pull`
 - `venv --python=<your python 3 path>`
@@ -101,7 +101,7 @@ something like the following appear on your page:
 ## Transferring Converted Subjects
 Once you've built your conversion file with the above you'll need to pick 
 a destination to deliver your subjects to. Once you've filled in the 
-following fields with the appropriate values bidsgui2 will begin to 
+following fields with the appropriate values bids_tryworks will begin to 
 convert your dicoms into bids and deliver them.
 
 The fields below need to filled as followed:

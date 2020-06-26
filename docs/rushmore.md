@@ -47,10 +47,10 @@ The following details are documented below:
 On first startup bids_tryworks will determine whether or not it's indexed the folder specified in the `.env` file prepared earlier at `BASE_DICOM_DIR=`. If it hasn't it will index all dicoms located in that folder. Otherwise, bids_tryworks will index a new folder of flat dicoms (other folder structures have not been extensively tested) once it is created or copied into the `BASE_DICOM_DIR` folder. However, it only detects when new folders are created at the base level of that folder, if you deliver dicoms to an already existing folder in `BASE_DICOM_DIR` it will not pick up on that (03/18/20).
 
 ### Routine Indexing
-Bidsgui2 will index the `BASE_DICOM_DIR` once per day to catch any files that may have arrived when the application was stopped and not monitoring the folder.
+bids_tryworks will index the `BASE_DICOM_DIR` once per day to catch any files that may have arrived when the application was stopped and not monitoring the folder.
 
 ### Manually Indexing
 Involves docker exec <id of container> /bin/bash && python manage.py index -d <folder to index> etc etc, not advisable for average users.
 ## Locating/Navigating to the App
-By default Bidsgui2 locates itself at https://localhost/8770/dicoms simply navigate to that webaddress with a browser of choice on the machine that bidsgui2 is installed on to reach the app.
+By default bids_tryworks locates itself at https://localhost/8770/dicoms simply navigate to that webaddress with a browser of choice on the machine that bids_tryworks is installed on to reach the app.
 ## Gotchas and Other Info.

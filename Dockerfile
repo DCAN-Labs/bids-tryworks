@@ -42,20 +42,20 @@ RUN git clone https://github.com/rordenlab/dcm2niix.git &&\
 # these folders will need to be correctly mounted at launch of this image.
 # these folder names are the same case as the variables they correspond to in settings.py
 # Further, this codebase defaults to outputing it's
-RUN mkdir /bidsgui2/ \
+RUN mkdir /bids_tryworks/ \
  && mkdir /MOUNTED_FOLDER \
  && mkdir /MOUNTED_FOLDER/BASE_DICOM_DIR \
  && mkdir /MOUNTED_FOLDER/CONVERTED_FOLDER \
  && mkdir /MOUNTED_FOLDER/LOG_PATH \
  && mkdir /MOUNTED_FOLDER/DCM2BIDS_FILES \
- && touch /bidsgui2_is_running_in_docker.fact
+ && touch /bids_tryworks_is_running_in_docker.fact
 
 
-COPY requirements.txt /bidsgui2/requirements.txt
+COPY requirements.txt /bids_tryworks/requirements.txt
 
 # install setup tools and pipwheel
 RUN pip3 install setuptools wheel
 
 # Install python requirements from text file
-RUN pip3 install -r bidsgui2/requirements.txt
+RUN pip3 install -r bids_tryworks/requirements.txt
 

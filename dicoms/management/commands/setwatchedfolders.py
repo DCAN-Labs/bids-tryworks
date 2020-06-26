@@ -4,7 +4,7 @@ import traceback
 import yaml
 from django.core.management.base import BaseCommand
 
-from bidsgui2.settings import server_config
+from bids_tryworks.settings import server_config
 
 
 class Command(BaseCommand):
@@ -50,5 +50,5 @@ class Command(BaseCommand):
                 raise IOError
 
         else:
-            print("No directory passed to watch, check BASE_DICOM_DIR in bidsgui2.settings or supply path with -d \
+            print("No directory passed to watch, check BASE_DICOM_DIR in bids_tryworks.settings or supply path with -d \
                    argument")

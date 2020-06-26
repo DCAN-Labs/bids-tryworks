@@ -8,9 +8,9 @@ import os
 
 
 if not am_i_in_docker():
-    from bidsgui2.settings import BASE_DICOM_DIR, LOG_PATH
+    from bids_tryworks.settings import BASE_DICOM_DIR, LOG_PATH
 else:
-    from bidsgui2.docker import BASE_DICOM_DIR, LOG_PATH
+    from bids_tryworks.docker import BASE_DICOM_DIR, LOG_PATH
 
 
 class Command(BaseCommand):

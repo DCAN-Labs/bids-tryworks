@@ -1,9 +1,9 @@
-# This document contains developer notes for setting up and maintaining bidsgui2
+# This document contains developer notes for setting up and maintaining bids_tryworks
 There are presently two deployed versions of bidsgui, one of them exists on airc at:
-`/group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2` 
+`/group_shares/fnl/bulk/code/internal/GUIs/bids_tryworks_dev/bids_tryworks` 
 
 and the other exists on rushmore at:  
-`/mnt/max/home/firmmproc/bidsgui2_docker/bidsgui2`
+`/mnt/max/home/firmmproc/bids_tryworks_docker/bids_tryworks`
 
 The gui interface on both verisions is identical, what differs between the two is 
 how the backend is set up and run. The version on AIRC is a complete stand alone 
@@ -27,47 +27,47 @@ organizing MRI scans, that is to say that the AIRC divides each scan into it's o
 
 ### Keeping Records and scans up to date
 There is no automatic way to index the AIRC at the time of this writing. That is to say that any scans made after the command `python manage.py index -d /dicom` will
-not appear in the bidsgui2 search because they don't exist in the database. However,
+not appear in the bids_tryworks search because they don't exist in the database. However,
 there is no need to despair. 
 
 If one writes a bash script that does the following things:
-1) Activate the bidsgui2 virtual environment at: `/group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/venv`
-2) runs the index command: `python /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/manage.py index -d <target directory to index>`
+1) Activate the bids_tryworks virtual environment at: `/group_shares/fnl/bulk/code/internal/GUIs/bids_tryworks_dev/bids_tryworks/venv`
+2) runs the index command: `python /group_shares/fnl/bulk/code/internal/GUIs/bids_tryworks_dev/bids_tryworks/manage.py index -d <target directory to index>`
 3) re-runs that command on some interval (every other day?) but only points it to 
 the current month of scans, eg:
-`python /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/manage.py index -d /dicoms/2020/<current month>`
+`python /group_shares/fnl/bulk/code/internal/GUIs/bids_tryworks_dev/bids_tryworks/manage.py index -d /dicoms/2020/<current month>`
 
-Then bidsgui2 should stay indexed with a minimum of fuss.
+Then bids_tryworks should stay indexed with a minimum of fuss.
 
 ### Indexing right away
 If a user wishes to index a directory right away the steps would be the same as the 
 above, minus the loop. eg:
 ```bash
-source /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/venv/bin/activate  
-python /group_shares/fnl/bulk/code/internal/GUIs/bidsgui2_dev/bidsgui2/manage.py index -d <target directory to index>
+source /group_shares/fnl/bulk/code/internal/GUIs/bids_tryworks_dev/bids_tryworks/venv/bin/activate  
+python /group_shares/fnl/bulk/code/internal/GUIs/bids_tryworks_dev/bids_tryworks/manage.py index -d <target directory to index>
 ```
 
 ### Launching the Server/Starting the app
-Typically it's best practice to simply leave bidsgui2 running in the background as it's not terribly resource intensive, however if one needs to launch it can be done with the following commands:
+Typically it's best practice to simply leave bids_tryworks running in the background as it's not terribly resource intensive, however if one needs to launch it can be done with the following commands:
 
 
 ## Docker Version (Deployed on Rushmore)
 The docker version is a much more mature and functional piece of software
-than the version of bidsgui2 deployed on the AIRC. The docker version 
+than the version of bids_tryworks deployed on the AIRC. The docker version 
 differs from the straight Django (AIRC) version in a number of ways:
-- Runs 4 containers, 3 bidsgui2 and 1 Postgres via docker-compose
+- Runs 4 containers, 3 bids_tryworks and 1 Postgres via docker-compose
 - Postgres container provides persistent data storage and a high throughput database that can be hit with requests from many sources.
-- bidsgui2 container runs the main service of bidsgui, searching and converting dicoms to bids
+- bids_tryworks container runs the main service of bidsgui, searching and converting dicoms to bids
 - bidsgui_autoindexer container launches a container that watches a single folder for incoming dicoms and then indexes any newly made folders w/in that folder if new dicoms arrive.
 - daily_indexer container runs the indexer over the entire contents of the watched/src dicom directory once per day to pick up on any dicoms that may have been missed if the auto_indexer container service was stopped or closed.
 
 ### Setup 
-0) Collect source code: `git clone https://gitlab.com/Fair_lab/bidsgui2`
+0) Collect source code: `git clone https://gitlab.com/Fair_lab/bids_tryworks`
 1) cd into cloned dir
 2) copy sample.env file to .env `cp sample.env .env`
 3) fill out the other side of the variable assignments in your `.env` file. Docker compose will look in this file for values corresponding to `${VALUE}` in your `.env` file. eg:
     ```bash
-    # code folder var, aka where the top level of bidsgui2 is.
+    # code folder var, aka where the top level of bids_tryworks is.
     CODE_FOLDER=
     # Folder containing dicoms to index/convert
     BASE_DICOM_DIR=
