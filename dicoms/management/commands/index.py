@@ -5,9 +5,9 @@ from dicoms.indexer import index_dicoms
 
 from utils.docker_check import am_i_in_docker
 if not am_i_in_docker():
-    from bids-tryworks.settings import BASE_DICOM_DIR, LOG_PATH
+    from bids_tryworks.settings import BASE_DICOM_DIR, LOG_PATH
 else:
-    from bids-tryworks.docker import BASE_DICOM_DIR, LOG_PATH
+    from bids_tryworks.docker import BASE_DICOM_DIR, LOG_PATH
 
 class Command(BaseCommand):
     """
@@ -32,5 +32,5 @@ class Command(BaseCommand):
                 print('directory', directory)
                 index_dicoms(directory)
         else:
-            print("No directory passed to index, check BASE_DICOM_DIR in bids-tryworks.settings or supply path with -d \
+            print("No directory passed to index, check BASE_DICOM_DIR in bids_tryworks.settings or supply path with -d \
                    argument")

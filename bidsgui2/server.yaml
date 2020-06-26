@@ -1,9 +1,0 @@
-BASE_DICOM_DIR:
-- /mnt/rose/shared/data/bids-tryworks_data/raw_dicoms/incoming_dicoms
-- /mnt/max/shared/code/internal/GUIs/dev_mastergui/mastergui
-- /mnt/max/shared/code/internal/GUIs
-CONVERTED_FOLDER: /mnt/rose/shared/data/bids-tryworks/dcm2bids
-DATA_UPLOAD_MAX_NUMBER_FIELDS: 10000
-LOG_PATH: /mnt/rose/shared/data/bids-tryworks/logs
-my_first_var: is a string
-my_second_var: 2

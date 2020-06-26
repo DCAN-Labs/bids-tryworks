@@ -7,9 +7,9 @@ from utils.docker_check import am_i_in_docker
 
 from utils.dir_watch import DicomWatcher, SessionWatcher
 if not am_i_in_docker():
-    from bids-tryworks.settings import BASE_DICOM_DIR
+    from bids_tryworks.settings import BASE_DICOM_DIR
 else:
-    from bids-tryworks.docker import BASE_DICOM_DIR
+    from bids_tryworks.docker import BASE_DICOM_DIR
 
 urlpatterns = [
     path('', views.search_subjects, name='allsubjects'),

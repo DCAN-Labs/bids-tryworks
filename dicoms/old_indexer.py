@@ -13,11 +13,11 @@ from utils.docker_check import am_i_in_docker
 
 if not am_i_in_docker():
     print("dicoms.indexer is not in docker.")
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bids-tryworks.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bids_tryworks.settings')
     django.setup()
 else:
     print("dicoms.indexer is in docker.")
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bids-tryworks.docker')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bids_tryworks.docker')
     django.setup()
 
 from dicoms.models import Session, Subject, Series

@@ -1,8 +1,8 @@
 # importing all settings from standard settings file
 # if you're seeing this grayed out on an editor don't delete the
-# from bids-tryworks.settings import *, otherwise you will have a bad time
+# from bids_tryworks.settings import *, otherwise you will have a bad time
 #####################################################################
-from bids-tryworks.settings import *   # don't delete this line
+from bids_tryworks.settings import *   # don't delete this line
 #####################################################################
 # don't delete above
 
@@ -21,7 +21,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'HOST': 'bids-tryworks_external_dicom_db',
+        'HOST': 'bids_tryworks_external_dicom_db',
         'PORT': '5432',
     }
 }
@@ -29,7 +29,7 @@ DATABASES = {
 # these paths are all hardcoded to the docker image
 # set them to your local machine/server in a .env file
 # for descriptions see sample.env or read the documents
-# in bids-tryworks/docs
+# in bids_tryworks/docs
 BASE_DICOM_DIR = [
     os.path.join('/', 'MOUNTED_FOLDER','BASE_DICOM_DIR')
 ]

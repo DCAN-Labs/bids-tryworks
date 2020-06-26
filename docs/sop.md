@@ -1,18 +1,18 @@
-# bids-tryworks Conversion SOP
+# bids_tryworks Conversion SOP
 Bidsgui
 For server specific setup instructions and or server specifics see documents:  
 - [Standard Install](rushmore.md) 
 - [AIRC](airc.md)
 
 ## Navigate to Site/App
-- bids-tryworks Linked to FIRMM on Rushmore is located at [http://localhost:8770/dicoms/](http://localhost:8770/dicoms/)
-- bids-tryworks on Rushmore is located at [http://localhost:8870/dicoms/](http://localhost:8870/dicoms/)
-- bids-tryworks on Airc is located at [http://localhost:8080/dicoms/](http://localhost:8080/dicoms/)
+- bids_tryworks Linked to FIRMM on Rushmore is located at [http://localhost:8770/dicoms/](http://localhost:8770/dicoms/)
+- bids_tryworks on Rushmore is located at [http://localhost:8870/dicoms/](http://localhost:8870/dicoms/)
+- bids_tryworks on Airc is located at [http://localhost:8080/dicoms/](http://localhost:8080/dicoms/)
 
 ## Searching for Dicoms
 The first page upon navigating to `localhost:<port>/dicoms` can be seen below:  
 ![search page image](/images/search.png)  
-There are several ways to search for dicoms with bids-tryworks:
+There are several ways to search for dicoms with bids_tryworks:
 1) Search by Subject ID
     - One can search by an exact or partial subject ID
     - If one is attempting to find multiple subjects that share a common id string (such as NDAR) in the ABCD Study. A search of ndar or NDAR will return all such 
@@ -81,7 +81,7 @@ Doing so should make something like the following appear on your page:
 ## Transferring Converted Subjects
 Once you've built/uploaded/selected your conversion file with the above you'll need to pick 
 a destination to deliver your subjects to. Once you've filled in the 
-following fields with the appropriate values bids-tryworks will begin to 
+following fields with the appropriate values bids_tryworks will begin to 
 convert your dicoms into bids and deliver them.
 
 The fields below need to filled as followed:

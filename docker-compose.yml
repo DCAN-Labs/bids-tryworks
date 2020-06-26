@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  bids-tryworks_external_dicom_db:
+  bids_tryworks_external_dicom_db:
     #user: $UID:$GID
     image: postgres:11.4
     restart: always
@@ -9,20 +9,20 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
     ports:
       - 5223:5432
-  bids-tryworks_external_dicom:
+  bids_tryworks_external_dicom:
     build:
       context: .
       dockerfile: Dockerfile
     #user: $UID:$GID
     tty: true
     command: bash -c "sleep 10
-              && python3 /bids-tryworks/manage.py makemigrations dicoms --settings=bids-tryworks.docker
-              && python3 /bids-tryworks/manage.py migrate --settings=bids-tryworks.docker
-              && python3 /bids-tryworks/manage.py runserver 0.0.0.0:8000 --settings=bids-tryworks.docker"
-      #&& python3 /bids-tryworks/manage.py autoindex </dev/null &>/dev/null &
+              && python3 /bids_tryworks/manage.py makemigrations dicoms --settings=bids_tryworks.docker
+              && python3 /bids_tryworks/manage.py migrate --settings=bids_tryworks.docker
+              && python3 /bids_tryworks/manage.py runserver 0.0.0.0:8000 --settings=bids_tryworks.docker"
+      #&& python3 /bids_tryworks/manage.py autoindex </dev/null &>/dev/null &
     volumes:
       # code folder
-      - /${CODE_FOLDER}:/bids-tryworks
+      - /${CODE_FOLDER}:/bids_tryworks
       # location of dicoms to index/convert from
       - /${BASE_DICOM_DIR}:/MOUNTED_FOLDER/BASE_DICOM_DIR
       # folder for converted subjects
@@ -34,20 +34,20 @@ services:
     ports:
       - "8870:8000"
     depends_on:
-      - bids-tryworks_external_dicom_db
-  bids-tryworks_external_dicom_autoindexer:
+      - bids_tryworks_external_dicom_db
+  bids_tryworks_external_dicom_autoindexer:
     build:
       context: .
       dockerfile: Dockerfile
     #user: $UID:$GID
     tty: true
     command: bash -c "sleep 5
-      && python3 /bids-tryworks/manage.py makemigrations dicoms --settings=bids-tryworks.docker
-      && python3 /bids-tryworks/manage.py migrate --settings=bids-tryworks.docker
-      && python3 /bids-tryworks/manage.py autoindex --settings=bids-tryworks.docker"
+      && python3 /bids_tryworks/manage.py makemigrations dicoms --settings=bids_tryworks.docker
+      && python3 /bids_tryworks/manage.py migrate --settings=bids_tryworks.docker
+      && python3 /bids_tryworks/manage.py autoindex --settings=bids_tryworks.docker"
     volumes:
       # code folder
-      - /${CODE_FOLDER}:/bids-tryworks
+      - /${CODE_FOLDER}:/bids_tryworks
       # location of dicoms to index/convert from
       - /${BASE_DICOM_DIR}:/MOUNTED_FOLDER/BASE_DICOM_DIR
       # folder for converted subjects
@@ -59,20 +59,20 @@ services:
     ports:
       - "8860:8001"
     depends_on:
-      - bids-tryworks_external_dicom_db
-  bids-tryworks_external_dicom_daily_indexer:
+      - bids_tryworks_external_dicom_db
+  bids_tryworks_external_dicom_daily_indexer:
     build:
       context: .
       dockerfile: Dockerfile
     #user: $UID:$GID
     tty: true
     command: bash -c "sleep 5
-      && python3 /bids-tryworks/manage.py makemigrations dicoms --settings=bids-tryworks.docker
-      && python3 /bids-tryworks/manage.py migrate --settings=bids-tryworks.docker
-      && python3 /bids-tryworks/manage.py dailyindex --settings=bids-tryworks.docker"
+      && python3 /bids_tryworks/manage.py makemigrations dicoms --settings=bids_tryworks.docker
+      && python3 /bids_tryworks/manage.py migrate --settings=bids_tryworks.docker
+      && python3 /bids_tryworks/manage.py dailyindex --settings=bids_tryworks.docker"
     volumes:
       # code folder
-      - /${CODE_FOLDER}:/bids-tryworks
+      - /${CODE_FOLDER}:/bids_tryworks
       # location of dicoms to index/convert from
       - /${BASE_DICOM_DIR}:/MOUNTED_FOLDER/BASE_DICOM_DIR
       # folder for converted subjects
@@ -84,4 +84,4 @@ services:
     ports:
       - "8861:8002"
     depends_on:
-      - bids-tryworks_external_dicom_db
+      - bids_tryworks_external_dicom_db
