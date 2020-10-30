@@ -51,15 +51,17 @@ importance below:
 - `BASE_DICOM_DIR` this is where dicoms reside on your system.
 - `CONVERTED_FOLDER` an intermediary folder 
 
+Note: You can obtain your UID (user ID) and GID (Group ID) by using the command `id`
+
 #### Non-Docker
 - `git clone git@github.com:DCAN-Labs/bids-tryworks.git`
 - `git pull`
-- `venv --python=<your python 3 path>`
+- `virtualenv venv --python=<your python 3 path>`
 - `source venv/bin/activate`
+- Optional: edit requirements.txt to reflect most up-to-date versions of packages you have installed on your system
 - `pip install -r requirements.txt`
 - `python manage.py makemigrations`
 - `python manage.py migrate`
-- change path in dicoms/indexer.py under `__main__` to your local dicom path.
 - index path using `python indexer.py`
 
 ## Use
