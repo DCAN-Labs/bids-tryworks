@@ -8,6 +8,7 @@ import traceback
 import django
 import pydicom
 import pytz
+import dna.utils as utils
 from dateutil import parser as dateparser
 from utils.docker_check import am_i_in_docker
 
