@@ -11,6 +11,7 @@ django-cors-headers
 django-rest-framework-braces==0.3.4
 django-sslserver==0.20
 djangorestframework==3.10.3
+#dna==0.0.7
 future==0.17.1
 pathtools==0.1.2
 pexpect==4.7.0
@@ -31,4 +32,4 @@ python-dotenv
 # https://www.psycopg.org/articles/2018/02/08/psycopg-274-released/
 # I'm assuming everything is still working in in docker but I could be wrong.
 psycopg2-binary
-psycopg2
+#psycopg2
