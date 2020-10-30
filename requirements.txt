@@ -1,7 +1,7 @@
 sharebear
 dateutils==0.6.6
 dcm2bids
-Django==2.2.1
+Django==2.2.13
 django-background-tasks==1.2.0
 django-bootstrap-datepicker-plus==3.0.5
 django-bootstrap4==0.0.8
