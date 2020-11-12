@@ -4,13 +4,20 @@ import sys
 import time
 import traceback
 
+#Update path to include working directory
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 # importing django specific modules
 import django
 import pydicom
 import pytz
-import dna.utils as utils
+import utils 
 from dateutil import parser as dateparser
-from utils.docker_check import am_i_in_docker
+from tryworks_utils.docker_check import am_i_in_docker
+import dotenv
+dotenv.load_dotenv(dotenv.find_dotenv()) 
+
+
 
 if not am_i_in_docker():
     print("dicoms.indexer is not in docker.")
@@ -113,3 +120,5 @@ def deindex_sessions():
             session.delete()
             print("Deleted {} from database.".format(session))
 
+if __name__ == "__main__":
+	index_dicoms(os.environ['BASE_DICOM_DIR'])
