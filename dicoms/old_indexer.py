@@ -9,7 +9,7 @@ import django
 import pydicom
 import pytz
 from dateutil import parser as dateparser
-from utils.docker_check import am_i_in_docker
+from tryworks_utils.docker_check import am_i_in_docker
 
 if not am_i_in_docker():
     print("dicoms.indexer is not in docker.")

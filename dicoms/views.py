@@ -16,7 +16,7 @@ from dicoms.forms import SearchForm, make_conversion_form, ConversionForm2
 from dicoms.models import Subject, Session, Series, DcmToBidsJson, ProgressIndicator
 from string import ascii_letters, digits
 
-from utils.transfer import login_and_sync
+from tryworks_utils.transfer import login_and_sync
 
 # standard library imports
 from os.path import basename, normpath, dirname, realpath, join
