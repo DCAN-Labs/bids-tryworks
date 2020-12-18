@@ -61,7 +61,7 @@ Note: You can obtain your UID (user ID) and GID (Group ID) by using the command 
 - Optional: edit requirements.txt to reflect most up-to-date versions of packages you have installed on your system
 - `pip install -r requirements.txt`
 - `python manage.py makemigrations`
-- `python manage.py migrate`
+- `python manage.py migrate --run-syncdb`
 - index path using `python indexer.py`
 
 ## Use
@@ -131,3 +131,4 @@ To start your conversion click the `create conversion file` button and wait. You
 
 
 
+python manage.py migrate --run-syncdb
