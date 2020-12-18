@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 
 from dicoms.indexer import index_dicoms
 
-from utils.docker_check import am_i_in_docker
+from tryworks_utils.docker_check import am_i_in_docker
 if not am_i_in_docker():
     from bids_tryworks.settings import BASE_DICOM_DIR, LOG_PATH
 else:
@@ -26,7 +26,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options['directory']:
             index_dicoms(options['directory'])
-        elif not options['directories'] and settings.BASE_DICOM_DIR:
+        elif not options['directory'] and settings.BASE_DICOM_DIR:
             print('settings.BASE_DICOM_DIR', settings.BASE_DICOM_DIR)
             for directory in settings.BASE_DICOM_DIR:
                 print('directory', directory)
