@@ -631,7 +631,7 @@ def convert(selected_session_pks, config, output_dir=settings.CONVERTED_FOLDER, 
             login_and_sync(**transfer_kwargs)
         
         # record conversion event/create progress object on completion
-        progress = ProgressIndicator.objects.get_or_create(conversion_output_path=output_dir)
+        progress = ProgressIndicator.objects.get_or_create(conversion_output_path=output_dir)[0]
         if progress.time_started > time.time() - 3600:
             progress.number_of_sessions = len(selected_sessions)
             progress.number_completed = progress.number_completed + 1 
