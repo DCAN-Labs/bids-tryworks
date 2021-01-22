@@ -62,7 +62,8 @@ Note: You can obtain your UID (user ID) and GID (Group ID) by using the command 
 - `pip install -r requirements.txt`
 - `python manage.py makemigrations`
 - `python manage.py migrate --run-syncdb`
-- index path using `python indexer.py`
+- index path using `python dicoms/indexer.py`
+
 
 ## Use
 ### Starting the App
